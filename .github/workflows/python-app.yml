@@ -28,14 +28,7 @@ jobs:
         source venv/bin/activate
         pip install -r requirements.txt
 
-    # If you have tests, uncomment the next block and set up your testing tool
-    - name: Run tests
-      run: |
-        source venv/bin/activate
-        # Example for pytest, replace if using a different test framework
-        pytest
-
-    # Run Flask app for specific testing or deployment purposes (optional)
+    # Optionally run the Flask app in the background (this can be removed if not needed)
     - name: Run Flask app in the background (optional)
       if: ${{ github.event_name == 'push' }}
       run: |
