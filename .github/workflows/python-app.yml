@@ -1,44 +1,44 @@
-name: Flask App CI
+name: Python Flask CI
 
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the repository
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Step 2: Set up Python environment
     - name: Set up Python 3.x
       uses: actions/setup-python@v4
       with:
-        python-version: '3.x'  # You can specify a specific Python version if required
+        python-version: '3.x'
 
-    # Step 3: Install dependencies using Makefile
     - name: Install dependencies
-      run: make install
-
-    # Step 4: Run Flask app (with sleep to ensure it's up)
-    - name: Run Flask app
       run: |
-        make run &
-        sleep 10  # Wait 10 seconds to give Flask time to start
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
 
-    # Step 5: Check if the app is running
-    - name: Check Flask app is running
+    - name: Run tests (if applicable)
       run: |
-        curl -I http://localhost:3000
-        echo "Flask app running on port 3000"
+        source venv/bin/activate
+        # run your tests here, for example:
+        # pytest tests/
 
-    # Step 6: Clean up virtual environment
-    - name: Clean up
-      run: make clean
+    - name: Run Flask app (optional for development)
+      run: |
+        source venv/bin/activate
+        export FLASK_APP=app.py
+        export FLASK_ENV=development
+        flask run --port 3000
+      env:
+        CI: true
