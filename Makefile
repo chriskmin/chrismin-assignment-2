@@ -11,4 +11,4 @@ run:
 clean:
 	rm -rf $(VENV)
 
-reinstall: clean install
+reinstall: clean install 

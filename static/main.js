@@ -194,30 +194,71 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function drawGraph() {
-		plotContainer.innerHTML = '';
-		dataPoints.forEach((point, index) => {
-			const dot = document.createElement('div');
-			dot.style.position = 'absolute';
-			dot.style.width = '5px';
-			dot.style.height = '5px';
-			dot.style.backgroundColor = clusterAssignments[index] !== undefined ? `hsl(${clusterAssignments[index] * 360 / centers.length}, 100%, 50%)` : 'black';
-			dot.style.borderRadius = '50%';
-			dot.style.left = `${point.x}px`;
-			dot.style.top = `${point.y}px`;
-			plotContainer.appendChild(dot);
-		});
-		centers.forEach(center => {
-			const centerDot = document.createElement('div');
-			centerDot.style.position = 'absolute';
-			centerDot.style.width = '10px';
-			centerDot.style.height = '10px';
-			centerDot.style.backgroundColor = 'red';
-			centerDot.style.borderRadius = '50%';
-			centerDot.style.left = `${center.x}px`;
-			centerDot.style.top = `${center.y}px`;
-			plotContainer.appendChild(centerDot);
-		});
-	}
+    // Clear the plot area
+    plotContainer.innerHTML = '';
+
+    // Draw X-axis (horizontal line)
+    const xAxis = document.createElement('div');
+    xAxis.style.position = 'absolute';
+    xAxis.style.width = `${plotContainer.clientWidth}px`;
+    xAxis.style.height = '1px';
+    xAxis.style.backgroundColor = 'black';
+    xAxis.style.left = '0px';
+    xAxis.style.top = `${plotContainer.clientHeight / 2}px`;
+    plotContainer.appendChild(xAxis);
+
+    // Draw Y-axis (vertical line)
+    const yAxis = document.createElement('div');
+    yAxis.style.position = 'absolute';
+    yAxis.style.width = '1px';
+    yAxis.style.height = `${plotContainer.clientHeight}px`;
+    yAxis.style.backgroundColor = 'black';
+    yAxis.style.left = `${plotContainer.clientWidth / 2}px`;
+    yAxis.style.top = '0px';
+    plotContainer.appendChild(yAxis);
+
+    // Optionally: Add axis labels
+    const xLabel = document.createElement('div');
+    xLabel.style.position = 'absolute';
+    xLabel.style.left = `${plotContainer.clientWidth - 30}px`;
+    xLabel.style.top = `${plotContainer.clientHeight / 2 + 5}px`;
+    xLabel.innerText = 'X';
+    plotContainer.appendChild(xLabel);
+
+    const yLabel = document.createElement('div');
+    yLabel.style.position = 'absolute';
+    yLabel.style.left = `${plotContainer.clientWidth / 2 + 5}px`;
+    yLabel.style.top = '5px';
+    yLabel.innerText = 'Y';
+    plotContainer.appendChild(yLabel);
+
+    // Draw the data points
+    dataPoints.forEach((point, index) => {
+        const dot = document.createElement('div');
+        dot.style.position = 'absolute';
+        dot.style.width = '5px';
+        dot.style.height = '5px';
+        dot.style.backgroundColor = clusterAssignments[index] !== undefined ? `hsl(${clusterAssignments[index] * 360 / centers.length}, 100%, 50%)` : 'black';
+        dot.style.borderRadius = '50%';
+        dot.style.left = `${point.x}px`;
+        dot.style.top = `${point.y}px`;
+        plotContainer.appendChild(dot);
+    });
+
+    // Draw the cluster centers
+    centers.forEach(center => {
+        const centerDot = document.createElement('div');
+        centerDot.style.position = 'absolute';
+        centerDot.style.width = '10px';
+        centerDot.style.height = '10px';
+        centerDot.style.backgroundColor = 'red';
+        centerDot.style.borderRadius = '50%';
+        centerDot.style.left = `${center.x}px`;
+        centerDot.style.top = `${center.y}px`;
+        plotContainer.appendChild(centerDot);
+    });
+}
+
 
 	drawGraph();
 });
